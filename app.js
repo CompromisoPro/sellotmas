@@ -243,16 +243,18 @@ class App {
         let explicacion = '';
         let justificacionTMAS = criterio.justificacionTMAS || '';
         let comoDemuestra = criterio.comoDemuestra || '';
+        let queNecesitaParaDirecto = criterio.queNecesitaParaDirecto || '';
         
         if (criterio.cumple) {
             if (criterio.tipoVinculo === 'Directo') {
-                explicacion = `<strong>¡Felicitaciones!</strong> 🎉 Con ${criterio.nota} estrellas ya cumples con lo que pide la Taxonomía de Finanzas Verdes de Chile. Esto te puede abrir puertas a <strong>financiamiento verde, mejores tasas de crédito y reconocimiento</strong> como empresa sostenible.`;
+                explicacion = `<strong>¡Felicitaciones!</strong> 🎉 Con ${criterio.nota} estrellas ya cumples <strong>directamente</strong> con lo que pide la Taxonomía de Finanzas Verdes de Chile. Esto te puede abrir puertas a <strong>financiamiento verde, mejores tasas de crédito y reconocimiento</strong> como empresa sostenible.`;
             } else {
-                explicacion = `<strong>¡Vas muy bien!</strong> 👏 Con ${criterio.nota} estrellas estás contribuyendo a los objetivos de sostenibilidad de Chile. Aunque no es un cumplimiento directo, <strong>suma puntos</strong> para tu perfil de empresa responsable.`;
+                // Indirecto pero cumple el umbral
+                explicacion = `<strong>¡Buen avance!</strong> 👏 Con ${criterio.nota} estrellas cumples el umbral, pero el vínculo es <strong>indirecto</strong>. Esto significa que contribuyes a la Taxonomía, pero hay requisitos adicionales para un cumplimiento total. <strong>Mira abajo qué te falta para el vínculo directo.</strong>`;
             }
         } else {
             if (criterio.brecha === 1) {
-                explicacion = `<strong>¡Estás muy cerca!</strong> 🎯 Con ${criterio.nota} estrella${criterio.nota !== 1 ? 's' : ''} ya tienes una base sólida. Solo necesitas <strong>subir 1 estrella más</strong> para desbloquear acceso a financiamiento verde y reconocimiento como empresa sostenible.`;
+                explicacion = `<strong>¡Estás muy cerca!</strong> 🎯 Con ${criterio.nota} estrella${criterio.nota !== 1 ? 's' : ''} ya tienes una base sólida. Solo necesitas <strong>subir 1 estrella más</strong> para desbloquear el vínculo con la Taxonomía.`;
             } else if (criterio.brecha === 2) {
                 explicacion = `<strong>Buen avance</strong> 📈 Tienes ${criterio.nota} estrella${criterio.nota !== 1 ? 's' : ''} y necesitas llegar a ${criterio.estrellaVinculo}. Con <strong>2 pasos más</strong> podrías acceder a mejores condiciones de crédito y posicionarte como empresa verde.`;
             } else {
@@ -276,15 +278,23 @@ class App {
                 <div class="panel-section-title">Relación con la Taxonomía</div>
                 <div class="tmas-relation">
                     <div class="tmas-relation-header">
-                        <div class="tmas-icon ${criterio.cumple ? 'cumple' : 'parcial'}">
-                            ${criterio.cumple ? '✓' : '↗'}
+                        <div class="tmas-icon ${criterio.cumple ? (criterio.tipoVinculo === 'Directo' ? 'cumple' : 'indirecto') : 'parcial'}">
+                            ${criterio.cumple ? (criterio.tipoVinculo === 'Directo' ? '✓' : '◐') : '↗'}
                         </div>
                         <div>
                             <div class="tmas-relation-title">
-                                ${criterio.cumple ? 'Criterio Alineado con T-MAS' : 'Oportunidad de Mejora'}
+                                ${criterio.cumple 
+                                    ? (criterio.tipoVinculo === 'Directo' 
+                                        ? '🟢 Vínculo DIRECTO con T-MAS' 
+                                        : '🟡 Vínculo INDIRECTO con T-MAS')
+                                    : '⚪ Oportunidad de Mejora'}
                             </div>
                             <div class="tmas-relation-subtitle">
-                                Vínculo ${criterio.tipoVinculo} · Requiere ${criterio.estrellaVinculo}+ estrellas
+                                ${criterio.cumple 
+                                    ? (criterio.tipoVinculo === 'Directo'
+                                        ? 'Cumples todos los requisitos de la Taxonomía'
+                                        : 'Cumples parcialmente · Hay requisitos adicionales')
+                                    : `Requiere ${criterio.estrellaVinculo}+ estrellas · Te faltan ${criterio.brecha}`}
                             </div>
                         </div>
                     </div>
@@ -293,7 +303,7 @@ class App {
                 
                 ${justificacionTMAS ? `
                 <div class="tmas-detail-box">
-                    <div class="tmas-detail-title">📋 ¿Por qué se alinea con T-MAS?</div>
+                    <div class="tmas-detail-title">📋 ¿Por qué se relaciona con T-MAS?</div>
                     <p>${justificacionTMAS}</p>
                 </div>
                 ` : ''}
@@ -302,6 +312,17 @@ class App {
                 <div class="tmas-detail-box success">
                     <div class="tmas-detail-title">✅ ¿Cómo lo demuestras?</div>
                     <p>${comoDemuestra}</p>
+                </div>
+                ` : ''}
+                
+                ${queNecesitaParaDirecto && criterio.tipoVinculo === 'Indirecto' ? `
+                <div class="tmas-detail-box warning">
+                    <div class="tmas-detail-title">🎯 ¿Qué te falta para el vínculo DIRECTO?</div>
+                    <p>${queNecesitaParaDirecto}</p>
+                    <div class="delta-action">
+                        <span class="delta-badge">PLAN DE ACCIÓN</span>
+                        <span class="delta-text">Esto es lo que necesitas para pasar de amarillo a verde</span>
+                    </div>
                 </div>
                 ` : ''}
             </div>

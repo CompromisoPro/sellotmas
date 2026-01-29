@@ -556,12 +556,14 @@ body {
     border-radius: var(--radius-sm);
 }
 
-.link-type.direct {
+.link-type.direct,
+.link-type.directo {
     background: rgba(53, 211, 139, 0.15);
     color: var(--sello-green-dark);
 }
 
-.link-type.indirect {
+.link-type.indirect,
+.link-type.indirecto {
     background: var(--indirect-bg);
     color: var(--indirect);
 }
@@ -735,7 +737,8 @@ body {
 }
 
 .tmas-icon.cumple { background: var(--success-bg); }
-.tmas-icon.parcial { background: var(--warning-bg); }
+.tmas-icon.indirecto { background: rgba(245, 158, 11, 0.15); }
+.tmas-icon.parcial { background: var(--bg-tertiary); }
 
 .tmas-relation-title {
     font-weight: 600;
@@ -770,6 +773,44 @@ body {
 .tmas-detail-box.success {
     background: rgba(53, 211, 139, 0.08);
     border-color: rgba(53, 211, 139, 0.3);
+}
+
+.tmas-detail-box.warning {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.tmas-detail-box.warning .tmas-detail-title {
+    color: var(--warning);
+}
+
+.tmas-detail-box.warning p {
+    color: var(--text-primary);
+}
+
+.delta-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(245, 158, 11, 0.3);
+}
+
+.delta-badge {
+    background: var(--warning);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.delta-text {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-style: italic;
 }
 
 .tmas-detail-title {
