@@ -861,6 +861,19 @@ body {
     opacity: 0.8;
 }
 
+.objective-item.locked {
+    opacity: 0.85;
+}
+
+.objective-item.locked .objective-detail-hint {
+    color: var(--warning);
+}
+
+.objective-lock {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
 /* Objetivo expandido */
 .objective-expanded {
     background: rgba(53, 211, 139, 0.05);
@@ -869,6 +882,32 @@ body {
     margin-bottom: 10px;
     overflow: hidden;
     border: 1px solid rgba(53, 211, 139, 0.2);
+}
+
+.objective-expanded.locked {
+    background: rgba(245, 158, 11, 0.05);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.objective-expanded.locked .expanded-title {
+    color: var(--warning);
+}
+
+.unlock-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--warning);
+}
+
+.unlock-icon {
+    font-size: 1.25rem;
 }
 
 .expanded-content {

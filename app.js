@@ -309,7 +309,7 @@ class App {
             <!-- Objetivos Impactados -->
             ${criterio.objetivosImpactados.length > 0 ? `
                 <div class="panel-section">
-                    <div class="panel-section-title">Objetivos T-MAS que impactas</div>
+                    <div class="panel-section-title">${criterio.cumple ? '🎯 Objetivos T-MAS que cumples' : '🔓 Lo que podrías desbloquear'}</div>
                     <div class="objectives-list">
                         ${criterio.objetivosImpactados.map(obj => {
                             // Obtener info detallada del objetivo
@@ -317,32 +317,38 @@ class App {
                             const infoTMAS = typeof INFO_TMAS !== 'undefined' ? INFO_TMAS[infoKey] : null;
                             
                             return `
-                            <div class="objective-item ${criterio.cumple ? 'expandable' : ''}" data-info="${infoKey}">
+                            <div class="objective-item expandable ${!criterio.cumple ? 'locked' : ''}" data-info="${infoKey}">
                                 <div class="objective-icon" style="background: ${obj.bg}">
-                                    ${obj.icon}
+                                    ${criterio.cumple ? obj.icon : '🔒'}
                                 </div>
                                 <div class="objective-info">
                                     <div class="objective-name">${obj.nombre}</div>
-                                    <div class="objective-type">${obj.tipo} · ${obj.descripcion}</div>
-                                    ${criterio.cumple && infoTMAS ? `
-                                        <div class="objective-detail-hint">Click para ver requisitos T-MAS</div>
+                                    <div class="objective-type">${obj.descripcion}</div>
+                                    ${infoTMAS ? `
+                                        <div class="objective-detail-hint">${criterio.cumple ? 'Click para ver qué cumples' : 'Click para ver qué necesitas'}</div>
                                     ` : ''}
                                 </div>
-                                ${criterio.cumple ? '<div class="objective-check">✓</div>' : ''}
+                                ${criterio.cumple ? '<div class="objective-check">✓</div>' : '<div class="objective-lock">🎯</div>'}
                             </div>
-                            ${criterio.cumple && infoTMAS ? `
-                            <div class="objective-expanded" id="detail-${infoKey}" style="display: none;">
+                            ${infoTMAS ? `
+                            <div class="objective-expanded ${!criterio.cumple ? 'locked' : ''}" id="detail-${infoKey}" style="display: none;">
                                 <div class="expanded-content">
                                     <p class="expanded-desc">${infoTMAS.descripcion}</p>
-                                    <div class="expanded-title">Requisitos que cumples:</div>
+                                    <div class="expanded-title">${criterio.cumple ? '✅ Lo que ya cumples:' : '📋 Lo que necesitarías:'}</div>
                                     <ul class="expanded-list">
                                         ${infoTMAS.requisitos.map(req => `<li>${req}</li>`).join('')}
                                     </ul>
                                     ${infoTMAS.documentos ? `
-                                        <div class="expanded-title" style="margin-top: 12px;">📄 Documentos recomendados:</div>
+                                        <div class="expanded-title" style="margin-top: 12px;">📄 Documentos que ${criterio.cumple ? 'respaldan tu cumplimiento' : 'necesitarías'}:</div>
                                         <ul class="expanded-list docs">
                                             ${infoTMAS.documentos.map(doc => `<li>${doc}</li>`).join('')}
                                         </ul>
+                                    ` : ''}
+                                    ${!criterio.cumple ? `
+                                        <div class="unlock-message">
+                                            <span class="unlock-icon">💡</span>
+                                            <span>Al subir a ${criterio.estrellaVinculo} estrellas, desbloqueas este beneficio</span>
+                                        </div>
                                     ` : ''}
                                 </div>
                             </div>
