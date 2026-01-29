@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelloPRO × T-MAS | Tu Avance en Sostenibilidad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar - Resumen -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">◆</div>
+                    <div class="logo-text">
+                        <span class="logo-title">SelloPRO</span>
+                        <span class="logo-subtitle">× Taxonomía</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-info">
+                <div class="company-avatar">CS</div>
+                <div class="company-details">
+                    <h3 id="companyName">Empresa Demo</h3>
+                    <span class="company-sector">Manufactura - Suministro</span>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-title">Tu Alineación T-MAS</div>
+                <div class="summary-score">
+                    <span class="score-value" id="globalScore">0</span>
+                    <span class="score-suffix">%</span>
+                </div>
+                <div class="summary-bar">
+                    <div class="summary-bar-fill" id="globalBar"></div>
+                </div>
+                <p class="summary-desc">de los criterios SelloPRO que cumples tienen relación con la Taxonomía</p>
+            </div>
+
+            <div class="quick-stats">
+                <div class="quick-stat">
+                    <div class="stat-icon green">✓</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="cumpleCount">0</span>
+                        <span class="stat-label">Criterios alineados</span>
+                    </div>
+                </div>
+                <div class="quick-stat">
+                    <div class="stat-icon orange">↗</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="brechaCount">0</span>
+                        <span class="stat-label">Con oportunidad</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-title">¿Qué significa?</div>
+                <div class="legend-item">
+                    <span class="legend-dot direct"></span>
+                    <span><strong>Directo:</strong> Cumple requisitos T-MAS</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot indirect"></span>
+                    <span><strong>Indirecto:</strong> Contribuye a T-MAS</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1>Tu Evaluación SelloPRO</h1>
+                    <p>Haz clic en cualquier criterio para ver su relación con la Taxonomía T-MAS</p>
+                </div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" data-view="list">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Lista
+                    </button>
+                    <button class="toggle-btn" data-view="grid">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Tarjetas
+                    </button>
+                </div>
+            </header>
+
+            <!-- Filtros por dimensión -->
+            <div class="dimension-filters">
+                <button class="filter-btn active" data-filter="all">
+                    Todos
+                    <span class="filter-count" id="countAll">0</span>
+                </button>
+                <button class="filter-btn" data-filter="GOBERNANZA">
+                    🏛️ Gobernanza
+                    <span class="filter-count" id="countGob">0</span>
+                </button>
+                <button class="filter-btn" data-filter="TRABAJADORES">
+                    👷 Trabajadores
+                    <span class="filter-count" id="countTrab">0</span>
+                </button>
+                <button class="filter-btn" data-filter="SST">
+                    🦺 SST
+                    <span class="filter-count" id="countSST">0</span>
+                </button>
+                <button class="filter-btn" data-filter="CADENA_VALOR">
+                    🔗 Cadena de Valor
+                    <span class="filter-count" id="countCadena">0</span>
+                </button>
+                <button class="filter-btn" data-filter="COMUNIDAD">
+                    🏘️ Comunidad
+                    <span class="filter-count" id="countCom">0</span>
+                </button>
+                <button class="filter-btn" data-filter="MEDIOAMBIENTE">
+                    🌱 Medioambiente
+                    <span class="filter-count" id="countMedio">0</span>
+                </button>
+                <button class="filter-btn" data-filter="INNOVACION">
+                    💡 Innovación
+                    <span class="filter-count" id="countInno">0</span>
+                </button>
+            </div>
+
+            <!-- Lista de Criterios -->
+            <div class="criteria-container" id="criteriaContainer">
+                <!-- Se genera dinámicamente -->
+            </div>
+        </main>
+
+        <!-- Panel de Detalle (aparece al hacer clic) -->
+        <aside class="detail-panel" id="detailPanel">
+            <div class="panel-header">
+                <button class="close-panel" id="closePanel">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <span class="panel-title">Detalle del Criterio</span>
+            </div>
+            <div class="panel-content" id="panelContent">
+                <!-- Se genera dinámicamente -->
+            </div>
+        </aside>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

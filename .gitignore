@@ -1,0 +1,9 @@
+# Archivos de datos sensibles (no subir a GitHub)
+*.xlsx
+*.xlsm
+*.pdf
+
+# Sistema
+.DS_Store
+Thumbs.db
+
