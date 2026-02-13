@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Lógica - SelloPRO × T-MAS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f1f5f9;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #343434;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        /* Diagrama de flujo */
+        .flow-diagram {
+            position: relative;
+            padding: 40px 20px;
+            min-height: 600px;
+        }
+        
+        .box {
+            position: absolute;
+            background: white;
+            border: 3px solid;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            max-width: 280px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        
+        .box-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #343434;
+        }
+        .box-content {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        .box-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        /* Colores por tipo */
+        .box-blue {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, #DBEAFE 0%, #EFF6FF 100%);
+        }
+        .box-green {
+            border-color: #35d38b;
+            background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%);
+        }
+        .box-purple {
+            border-color: #8B5CF6;
+            background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 100%);
+        }
+        .box-orange {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+        }
+        .box-gray {
+            border-color: #6B7280;
+            background: linear-gradient(135deg, #F3F4F6 0%, #F9FAFB 100%);
+        }
+        .box-dark {
+            border-color: #343434;
+            background: linear-gradient(135deg, #4B5563 0%, #374151 100%);
+            color: white;
+        }
+        .box-dark .box-title,
+        .box-dark .box-content {
+            color: white;
+        }
+        
+        /* Flechas */
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            z-index: 1;
+        }
+        .arrow-right {
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 15px solid #35d38b;
+        }
+        .arrow-down {
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 15px solid #35d38b;
+        }
+        .arrow-diagonal {
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 15px solid #35d38b;
+            transform: rotate(45deg);
+        }
+        
+        /* Líneas conectoras */
+        .connector {
+            position: absolute;
+            background: #35d38b;
+            z-index: 0;
+        }
+        .connector-h {
+            height: 3px;
+        }
+        .connector-v {
+            width: 3px;
+        }
+        
+        /* Secciones */
+        .section-title {
+            position: absolute;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #343434;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 8px;
+            border: 2px solid #35d38b;
+            z-index: 10;
+        }
+        
+        /* Labels */
+        .label {
+            position: absolute;
+            background: #35d38b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 5;
+        }
+        
+        /* Grid helper */
+        .grid-helper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔀 Diagrama de Lógica del Sistema</h1>
+        <p class="subtitle">SelloPRO × T-MAS - Flujo de Datos y Procesamiento</p>
+        
+        <!-- DIAGRAMA 1: FLUJO PRINCIPAL -->
+        <div style="margin-bottom: 60px;">
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">1. Flujo Principal del Sistema</h2>
+            <div class="flow-diagram" style="height: 500px; position: relative;">
+                <!-- Consultor -->
+                <div class="box box-blue" style="top: 20px; left: 50px;">
+                    <div class="box-icon">👤</div>
+                    <div class="box-title">Consultor</div>
+                    <div class="box-content">
+                        • Registra empresa<br>
+                        • Ingresa notas (1-5 estrellas)<br>
+                        • Por cada criterio SelloPRO
+                    </div>
+                </div>
+                
+                <!-- Plataforma -->
+                <div class="box box-green" style="top: 20px; left: 400px;">
+                    <div class="box-icon">💻</div>
+                    <div class="box-title">Plataforma Web</div>
+                    <div class="box-content">
+                        • Recibe notas<br>
+                        • Consulta vínculos T-MAS<br>
+                        • Ejecuta cálculo
+                    </div>
+                </div>
+                
+                <!-- Base de Datos -->
+                <div class="box box-purple" style="top: 20px; left: 750px;">
+                    <div class="box-icon">🗄️</div>
+                    <div class="box-title">Base de Datos</div>
+                    <div class="box-content">
+                        • Criterios SelloPRO<br>
+                        • Vínculos T-MAS<br>
+                        • Objetivos T-MAS<br>
+                        • Notas empresa
+                    </div>
+                </div>
+                
+                <!-- Cálculo -->
+                <div class="box box-orange" style="top: 250px; left: 400px;">
+                    <div class="box-icon">⚙️</div>
+                    <div class="box-title">Motor de Cálculo</div>
+                    <div class="box-content">
+                        <strong>Lógica:</strong><br>
+                        Para cada criterio:<br>
+                        1. Obtener nota empresa<br>
+                        2. Comparar con estrella_mínima<br>
+                        3. Si nota ≥ mínima → CUMPLE<br>
+                        4. Identificar objetivos impactados<br>
+                        5. Determinar si Directo/Indirecto
+                    </div>
+                </div>
+                
+                <!-- Resultado -->
+                <div class="box box-dark" style="top: 450px; left: 400px;">
+                    <div class="box-icon">📊</div>
+                    <div class="box-title">Dashboard T-MAS</div>
+                    <div class="box-content">
+                        • % Alineación global<br>
+                        • Criterios cumplidos<br>
+                        • Objetivos impactados<br>
+                        • Plan de acción
+                    </div>
+                </div>
+                
+                <!-- Empresa -->
+                <div class="box box-blue" style="top: 450px; left: 750px;">
+                    <div class="box-icon">🏢</div>
+                    <div class="box-title">Empresa Socia</div>
+                    <div class="box-content">
+                        • Accede con link único<br>
+                        • Ve su dashboard<br>
+                        • Descarga PDF
+                    </div>
+                </div>
+                
+                <!-- Flechas -->
+                <div class="arrow arrow-right" style="top: 80px; left: 280px;"></div>
+                <div class="arrow arrow-right" style="top: 80px; left: 630px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 500px;"></div>
+                <div class="arrow arrow-down" style="top: 400px; left: 500px;"></div>
+                <div class="arrow arrow-right" style="top: 500px; left: 630px;"></div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-h" style="top: 88px; left: 280px; width: 120px;"></div>
+                <div class="connector connector-h" style="top: 88px; left: 630px; width: 120px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 500px; height: 200px;"></div>
+                <div class="connector connector-h" style="top: 500px; left: 630px; width: 120px;"></div>
+            </div>
+        </div>
+        
+        <!-- DIAGRAMA 2: LÓGICA DE CÁLCULO -->
+        <div style="margin-bottom: 60px;">
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">2. Lógica de Cálculo T-MAS (Detalle)</h2>
+            <div class="flow-diagram" style="height: 700px; position: relative;">
+                <!-- Input -->
+                <div class="box box-blue" style="top: 20px; left: 50px;">
+                    <div class="box-icon">📥</div>
+                    <div class="box-title">INPUT</div>
+                    <div class="box-content">
+                        <strong>Nota Empresa:</strong> 4 estrellas<br>
+                        <strong>Criterio:</strong> "Estrategia de sostenibilidad"<br>
+                        <strong>ID:</strong> 1
+                    </div>
+                </div>
+                
+                <!-- Consulta BD -->
+                <div class="box box-purple" style="top: 20px; left: 400px;">
+                    <div class="box-icon">🔍</div>
+                    <div class="box-title">Consulta Base de Datos</div>
+                    <div class="box-content">
+                        SELECT * FROM vinculos_tmas<br>
+                        WHERE criterio_id = 1<br><br>
+                        <strong>Resultado:</strong><br>
+                        • tipo_vinculo: "Directo"<br>
+                        • estrella_minima: 2<br>
+                        • sms: true<br>
+                        • cs_om1: true
+                    </div>
+                </div>
+                
+                <!-- Comparación -->
+                <div class="box box-orange" style="top: 250px; left: 50px;">
+                    <div class="box-icon">⚖️</div>
+                    <div class="box-title">Comparación</div>
+                    <div class="box-content">
+                        <strong>IF</strong> nota (4) ≥ estrella_minima (2)<br>
+                        <strong>THEN</strong> CUMPLE = true<br>
+                        <strong>ELSE</strong> CUMPLE = false<br>
+                        <strong>BRECHA</strong> = mínima - nota
+                    </div>
+                </div>
+                
+                <!-- Identificar Objetivos -->
+                <div class="box box-green" style="top: 250px; left: 400px;">
+                    <div class="box-icon">🎯</div>
+                    <div class="box-title">Identificar Objetivos</div>
+                    <div class="box-content">
+                        <strong>IF</strong> sms = true<br>
+                        → Agregar "SMS"<br><br>
+                        <strong>IF</strong> cs_om1 = true<br>
+                        → Agregar "CS_OM1"<br><br>
+                        <strong>IF</strong> nhds_om3 = true<br>
+                        → Agregar "NHDS_OM3"
+                    </div>
+                </div>
+                
+                <!-- Determinar Estado -->
+                <div class="box box-orange" style="top: 480px; left: 225px;">
+                    <div class="box-icon">🔀</div>
+                    <div class="box-title">Determinar Estado</div>
+                    <div class="box-content">
+                        <strong>IF</strong> CUMPLE = true<br>
+                        &nbsp;&nbsp;<strong>IF</strong> tipo_vinculo = "Directo"<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;→ Estado: "Alineado" 🟢<br>
+                        &nbsp;&nbsp;<strong>ELSE</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;→ Estado: "Indirecto" 🟡<br>
+                        <strong>ELSE</strong><br>
+                        &nbsp;&nbsp;→ Estado: "Oportunidad" ⚪
+                    </div>
+                </div>
+                
+                <!-- Output -->
+                <div class="box box-dark" style="top: 680px; left: 225px;">
+                    <div class="box-icon">📤</div>
+                    <div class="box-title">OUTPUT</div>
+                    <div class="box-content">
+                        <strong>Resultado:</strong><br>
+                        • CUMPLE: true<br>
+                        • Estado: "Alineado"<br>
+                        • Tipo: "Directo"<br>
+                        • Objetivos: [SMS, CS_OM1]<br>
+                        • Brecha: 0
+                    </div>
+                </div>
+                
+                <!-- Flechas -->
+                <div class="arrow arrow-right" style="top: 80px; left: 280px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 150px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 500px;"></div>
+                <div class="arrow arrow-down" style="top: 430px; left: 350px;"></div>
+                <div class="arrow arrow-down" style="top: 630px; left: 350px;"></div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-h" style="top: 88px; left: 280px; width: 120px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 150px; height: 50px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 500px; height: 50px;"></div>
+                <div class="connector connector-v" style="top: 430px; left: 350px; height: 50px;"></div>
+                <div class="connector connector-v" style="top: 630px; left: 350px; height: 50px;"></div>
+            </div>
+        </div>
+        
+        <!-- DIAGRAMA 3: ARQUITECTURA DE COMPONENTES -->
+        <div style="margin-bottom: 60px;">
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">3. Arquitectura de Componentes</h2>
+            <div class="flow-diagram" style="height: 600px; position: relative;">
+                <!-- Frontend Layer -->
+                <div class="section-title" style="top: 10px; left: 50px;">FRONTEND</div>
+                
+                <div class="box box-blue" style="top: 60px; left: 50px;">
+                    <div class="box-icon">🎨</div>
+                    <div class="box-title">UI Components</div>
+                    <div class="box-content">
+                        • CriteriaCard<br>
+                        • DetailPanel<br>
+                        • Sidebar<br>
+                        • StarsDisplay
+                    </div>
+                </div>
+                
+                <div class="box box-blue" style="top: 60px; left: 300px;">
+                    <div class="box-icon">⚛️</div>
+                    <div class="box-title">React Hooks</div>
+                    <div class="box-content">
+                        • useEmpresa()<br>
+                        • useEvaluacion()<br>
+                        • useTMAS()<br>
+                        • useCalculo()
+                    </div>
+                </div>
+                
+                <div class="box box-blue" style="top: 60px; left: 550px;">
+                    <div class="box-icon">🔄</div>
+                    <div class="box-title">API Routes</div>
+                    <div class="box-content">
+                        • /api/empresas<br>
+                        • /api/evaluaciones<br>
+                        • /api/calcular-tmas<br>
+                        • /api/publicar
+                    </div>
+                </div>
+                
+                <!-- Backend Layer -->
+                <div class="section-title" style="top: 280px; left: 50px;">BACKEND / DATABASE</div>
+                
+                <div class="box box-purple" style="top: 330px; left: 50px;">
+                    <div class="box-icon">🔐</div>
+                    <div class="box-title">Supabase Auth</div>
+                    <div class="box-content">
+                        • Login/Logout<br>
+                        • JWT Tokens<br>
+                        • Roles (admin/consultor)
+                    </div>
+                </div>
+                
+                <div class="box box-purple" style="top: 330px; left: 300px;">
+                    <div class="box-icon">🗄️</div>
+                    <div class="box-title">PostgreSQL</div>
+                    <div class="box-content">
+                        • 7 tablas<br>
+                        • Relaciones FK<br>
+                        • Índices optimizados
+                    </div>
+                </div>
+                
+                <div class="box box-purple" style="top: 330px; left: 550px;">
+                    <div class="box-icon">🛡️</div>
+                    <div class="box-title">Row Level Security</div>
+                    <div class="box-content">
+                        • Admin: ve todo<br>
+                        • Consultor: sus empresas<br>
+                        • Empresa: solo su dashboard
+                    </div>
+                </div>
+                
+                <div class="box box-green" style="top: 330px; left: 800px;">
+                    <div class="box-icon">⚙️</div>
+                    <div class="box-title">Funciones DB</div>
+                    <div class="box-content">
+                        • calcular_alineacion_tmas()<br>
+                        • generar_token_publico()<br>
+                        • obtener_dashboard()
+                    </div>
+                </div>
+                
+                <!-- Flechas -->
+                <div class="arrow arrow-down" style="top: 200px; left: 150px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 400px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 650px;"></div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-v" style="top: 200px; left: 150px; height: 130px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 400px; height: 130px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 650px; height: 130px;"></div>
+            </div>
+        </div>
+        
+        <!-- DIAGRAMA 4: FLUJO DE USUARIO -->
+        <div style="margin-bottom: 60px;">
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">4. Flujo de Usuario (Consultor)</h2>
+            <div class="flow-diagram" style="height: 400px; position: relative;">
+                <div class="box box-blue" style="top: 50px; left: 50px;">
+                    <div class="box-icon">🔑</div>
+                    <div class="box-title">1. Login</div>
+                    <div class="box-content">Email + contraseña</div>
+                </div>
+                
+                <div class="box box-blue" style="top: 50px; left: 300px;">
+                    <div class="box-icon">📋</div>
+                    <div class="box-title">2. Dashboard</div>
+                    <div class="box-content">Lista de empresas con estado</div>
+                </div>
+                
+                <div class="box box-blue" style="top: 50px; left: 550px;">
+                    <div class="box-icon">➕</div>
+                    <div class="box-title">3. Nueva Evaluación</div>
+                    <div class="box-content">Formulario 58 criterios</div>
+                </div>
+                
+                <div class="box box-green" style="top: 250px; left: 50px;">
+                    <div class="box-icon">💾</div>
+                    <div class="box-title">4. Guardar</div>
+                    <div class="box-content">Borrador o Finalizar</div>
+                </div>
+                
+                <div class="box box-green" style="top: 250px; left: 300px;">
+                    <div class="box-icon">🧮</div>
+                    <div class="box-title">5. Cálculo Automático</div>
+                    <div class="box-content">Sistema calcula T-MAS</div>
+                </div>
+                
+                <div class="box box-green" style="top: 250px; left: 550px;">
+                    <div class="box-icon">👁️</div>
+                    <div class="box-title">6. Preview</div>
+                    <div class="box-content">Vista previa dashboard</div>
+                </div>
+                
+                <div class="box box-dark" style="top: 250px; left: 800px;">
+                    <div class="box-icon">🚀</div>
+                    <div class="box-title">7. Publicar</div>
+                    <div class="box-content">Genera link único</div>
+                </div>
+                
+                <!-- Flechas horizontales -->
+                <div class="arrow arrow-right" style="top: 100px; left: 280px;"></div>
+                <div class="arrow arrow-right" style="top: 100px; left: 530px;"></div>
+                <div class="arrow arrow-right" style="top: 300px; left: 280px;"></div>
+                <div class="arrow arrow-right" style="top: 300px; left: 530px;"></div>
+                <div class="arrow arrow-right" style="top: 300px; left: 780px;"></div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-h" style="top: 108px; left: 280px; width: 20px;"></div>
+                <div class="connector connector-h" style="top: 108px; left: 530px; width: 20px;"></div>
+                <div class="connector connector-h" style="top: 308px; left: 280px; width: 20px;"></div>
+                <div class="connector connector-h" style="top: 308px; left: 530px; width: 20px;"></div>
+                <div class="connector connector-h" style="top: 308px; left: 780px; width: 20px;"></div>
+            </div>
+        </div>
+        
+        <!-- DIAGRAMA 5: DECISION TREE -->
+        <div style="margin-bottom: 60px;">
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">5. Árbol de Decisión: ¿Cumple con T-MAS?</h2>
+            <div class="flow-diagram" style="height: 600px; position: relative;">
+                <!-- Inicio -->
+                <div class="box box-blue" style="top: 20px; left: 400px;">
+                    <div class="box-icon">🎯</div>
+                    <div class="box-title">Criterio Evaluado</div>
+                    <div class="box-content">Nota: 4 estrellas</div>
+                </div>
+                
+                <!-- Decisión 1 -->
+                <div class="box box-orange" style="top: 200px; left: 400px;">
+                    <div class="box-icon">❓</div>
+                    <div class="box-title">¿Tiene vínculo T-MAS?</div>
+                    <div class="box-content">Consulta: vinculos_tmas</div>
+                </div>
+                
+                <!-- Sin vínculo -->
+                <div class="box box-gray" style="top: 400px; left: 50px;">
+                    <div class="box-icon">❌</div>
+                    <div class="box-title">Sin Vínculo</div>
+                    <div class="box-content">No se muestra en dashboard</div>
+                </div>
+                
+                <!-- Con vínculo -->
+                <div class="box box-orange" style="top: 400px; left: 400px;">
+                    <div class="box-icon">❓</div>
+                    <div class="box-title">¿Nota ≥ Estrella Mínima?</div>
+                    <div class="box-content">4 ≥ 2? → SÍ</div>
+                </div>
+                
+                <!-- No cumple -->
+                <div class="box box-gray" style="top: 550px; left: 50px;">
+                    <div class="box-icon">⚪</div>
+                    <div class="box-title">Oportunidad</div>
+                    <div class="box-content">
+                        • Estado: "Oportunidad"<br>
+                        • Brecha: X estrellas<br>
+                        • Muestra qué falta
+                    </div>
+                </div>
+                
+                <!-- Cumple -->
+                <div class="box box-orange" style="top: 550px; left: 400px;">
+                    <div class="box-icon">❓</div>
+                    <div class="box-title">¿Tipo Vínculo?</div>
+                    <div class="box-content">Directo o Indirecto?</div>
+                </div>
+                
+                <!-- Directo -->
+                <div class="box box-green" style="top: 700px; left: 200px;">
+                    <div class="box-icon">🟢</div>
+                    <div class="box-title">DIRECTO</div>
+                    <div class="box-content">
+                        • Estado: "Alineado"<br>
+                        • Mensaje: Felicitaciones<br>
+                        • Muestra objetivos cumplidos
+                    </div>
+                </div>
+                
+                <!-- Indirecto -->
+                <div class="box box-orange" style="top: 700px; left: 600px;">
+                    <div class="box-icon">🟡</div>
+                    <div class="box-title">INDIRECTO</div>
+                    <div class="box-content">
+                        • Estado: "Indirecto"<br>
+                        • Mensaje: Buen avance<br>
+                        • Muestra "Qué falta para Directo"
+                    </div>
+                </div>
+                
+                <!-- Flechas -->
+                <div class="arrow arrow-down" style="top: 180px; left: 500px;"></div>
+                <div class="arrow arrow-down" style="top: 380px; left: 150px;"></div>
+                <div class="arrow arrow-down" style="top: 380px; left: 500px;"></div>
+                <div class="arrow arrow-down" style="top: 530px; left: 150px;"></div>
+                <div class="arrow arrow-down" style="top: 530px; left: 500px;"></div>
+                <div class="arrow arrow-down" style="top: 680px; left: 300px;"></div>
+                <div class="arrow arrow-down" style="top: 680px; left: 700px;"></div>
+                
+                <!-- Labels -->
+                <div class="label" style="top: 420px; left: 250px;">NO</div>
+                <div class="label" style="top: 420px; left: 600px;">SÍ</div>
+                <div class="label" style="top: 570px; left: 250px;">NO</div>
+                <div class="label" style="top: 570px; left: 600px;">SÍ</div>
+                <div class="label" style="top: 720px; left: 400px;">Directo</div>
+                <div class="label" style="top: 720px; left: 800px;">Indirecto</div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-v" style="top: 180px; left: 500px; height: 200px;"></div>
+                <div class="connector connector-v" style="top: 380px; left: 150px; height: 170px;"></div>
+                <div class="connector connector-v" style="top: 380px; left: 500px; height: 150px;"></div>
+                <div class="connector connector-v" style="top: 530px; left: 150px; height: 20px;"></div>
+                <div class="connector connector-v" style="top: 530px; left: 500px; height: 150px;"></div>
+                <div class="connector connector-v" style="top: 680px; left: 300px; height: 20px;"></div>
+                <div class="connector connector-v" style="top: 680px; left: 700px; height: 20px;"></div>
+            </div>
+        </div>
+        
+        <!-- DIAGRAMA 6: DATOS Y RELACIONES -->
+        <div>
+            <h2 style="color: #343434; margin-bottom: 20px; font-size: 1.8rem;">6. Flujo de Datos entre Componentes</h2>
+            <div class="flow-diagram" style="height: 500px; position: relative;">
+                <div class="box box-blue" style="top: 50px; left: 50px;">
+                    <div class="box-icon">📝</div>
+                    <div class="box-title">Formulario Evaluación</div>
+                    <div class="box-content">
+                        <strong>Input:</strong><br>
+                        {<br>
+                        &nbsp;&nbsp;criterio_id: 1,<br>
+                        &nbsp;&nbsp;nota: 4<br>
+                        }
+                    </div>
+                </div>
+                
+                <div class="box box-purple" style="top: 50px; left: 400px;">
+                    <div class="box-icon">🔍</div>
+                    <div class="box-title">Query BD</div>
+                    <div class="box-content">
+                        SELECT v.*, c.nombre<br>
+                        FROM vinculos_tmas v<br>
+                        JOIN criterios_sellopro c<br>
+                        WHERE v.criterio_id = 1
+                    </div>
+                </div>
+                
+                <div class="box box-green" style="top: 50px; left: 750px;">
+                    <div class="box-icon">⚙️</div>
+                    <div class="box-title">Función Cálculo</div>
+                    <div class="box-content">
+                        calcular_alineacion(<br>
+                        &nbsp;&nbsp;nota,<br>
+                        &nbsp;&nbsp;vinculo<br>
+                        )
+                    </div>
+                </div>
+                
+                <div class="box box-orange" style="top: 300px; left: 400px;">
+                    <div class="box-icon">📊</div>
+                    <div class="box-title">Resultado</div>
+                    <div class="box-content">
+                        {<br>
+                        &nbsp;&nbsp;cumple: true,<br>
+                        &nbsp;&nbsp;estado: "Alineado",<br>
+                        &nbsp;&nbsp;objetivos: ["SMS", "CS_OM1"],<br>
+                        &nbsp;&nbsp;tipo: "Directo"<br>
+                        }
+                    </div>
+                </div>
+                
+                <div class="box box-dark" style="top: 300px; left: 750px;">
+                    <div class="box-icon">🖥️</div>
+                    <div class="box-title">Render UI</div>
+                    <div class="box-content">
+                        • CriteriaCard verde<br>
+                        • DetailPanel con info<br>
+                        • Objetivos expandibles
+                    </div>
+                </div>
+                
+                <!-- Flechas -->
+                <div class="arrow arrow-right" style="top: 100px; left: 280px;"></div>
+                <div class="arrow arrow-right" style="top: 100px; left: 630px;"></div>
+                <div class="arrow arrow-down" style="top: 200px; left: 500px;"></div>
+                <div class="arrow arrow-right" style="top: 350px; left: 630px;"></div>
+                
+                <!-- Líneas -->
+                <div class="connector connector-h" style="top: 108px; left: 280px; width: 120px;"></div>
+                <div class="connector connector-h" style="top: 108px; left: 630px; width: 120px;"></div>
+                <div class="connector connector-v" style="top: 200px; left: 500px; height: 100px;"></div>
+                <div class="connector connector-h" style="top: 350px; left: 630px; width: 120px;"></div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 60px; padding: 30px; background: #f8f9fa; border-radius: 15px; text-align: center;">
+            <h3 style="color: #343434; margin-bottom: 15px;">💡 Notas para la Discusión</h3>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <p><strong>1. Lógica de Cálculo:</strong> El sistema compara automáticamente la nota de la empresa con la estrella mínima requerida. Si cumple, identifica qué objetivos T-MAS impacta.</p>
+                <p><strong>2. Diferenciación Directo/Indirecto:</strong> Los criterios DIRECTOS muestran felicitaciones. Los INDIRECTOS muestran un "plan de acción" con qué falta para ser directo.</p>
+                <p><strong>3. Seguridad:</strong> Row Level Security (RLS) en Supabase garantiza que cada usuario solo vea lo que le corresponde.</p>
+                <p><strong>4. Escalabilidad:</strong> La lógica está en la base de datos (funciones SQL), no en el frontend, permitiendo procesar muchas empresas eficientemente.</p>
+                <p><strong>5. Flexibilidad:</strong> Los vínculos T-MAS son datos maestros editables, permitiendo ajustes sin cambiar código.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
